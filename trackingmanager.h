@@ -3,7 +3,7 @@
 
 #include "filetracker.h"
 #include <QObject>
-#include <QTimerEvent>
+#include <QTimer>
 #include <QHash>
 
 class TrackingManager : public QObject {
@@ -11,9 +11,10 @@ class TrackingManager : public QObject {
 
     QString name;
     QHash<QString, FileTracker> fileList;
-    int timer;
+    QTimer timer;
 
     TrackingManager();
+    ~TrackingManager();
 
     TrackingManager(const TrackingManager&);
     TrackingManager& operator=(const TrackingManager&);
@@ -25,14 +26,14 @@ public slots:
     void Attach(QString fileName);
     void Detach(QString fileName);
     void resendSignal(FileEvent event, QString name, qint64 size);
+    void stopTimer();
+    void Update();
 
 signals:
     void fileAttached(QString fileName, bool existance, qint64 size);
     void fileDetached(QString fileName);
     void fileChanged(FileEvent event, QString name, qint64 size);
 
-protected:
-    void timerEvent(QTimerEvent *event);
 };
 
 #endif // TRACKINGMANAGER_H

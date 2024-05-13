@@ -15,7 +15,7 @@ void FileTracker::Update() {
     else {
         existance = exists();
         if (existance) emit fileChanged(FileEvent::Exists, fileName(), size());
-        else emit fileChanged(FileEvent::NotExists, fileName(), size());
+        else emit fileChanged(FileEvent::NotExist, fileName(), size());
     }
 }
 

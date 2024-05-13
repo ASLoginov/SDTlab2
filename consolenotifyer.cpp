@@ -1,7 +1,11 @@
 #include "consolenotifyer.h"
 
-ConsoleNotifyer::ConsoleNotifyer() {
+QTextStream cout(stdout);
 
+ConsoleNotifyer::ConsoleNotifyer() {
+    QDir dir;
+    dir.current();
+    cout << dir.absolutePath() << Qt::endl;
 }
 
 ConsoleNotifyer &ConsoleNotifyer::Instance() {
@@ -9,19 +13,14 @@ ConsoleNotifyer &ConsoleNotifyer::Instance() {
     return instance;
 }
 
-QTextStream cin(stdin);
-QTextStream cout(stdout);
-
-void ConsoleNotifyer::ReadCommand() {
-    QString comm, name;
-    cin >> comm >> name;
+void ConsoleNotifyer::ReadCommand(QString str) {
+    QString comm = str.section(' ', 0, 0);
+    QString param = str.section(' ', 1);
     if (comm == "attach") {
-        emit attachSignal(name);
-        return;
+        emit attachSignal(param);
     }
-    if (comm == "detach") {
-        emit detachSignal(QString(name));
-        return;
+    else if (comm == "detach") {
+        emit detachSignal(param);
     }
 }
 
@@ -31,10 +30,10 @@ void ConsoleNotifyer::changeNotify(FileEvent event, QString name, qint64 size) {
         return;
     }
     if (event == FileEvent::Exists ) {
-        cout << "File " << name << " is exists, size " << size << Qt::endl;
+        cout << "File " << name << " exists, size " << size << Qt::endl;
         return;
     }
-    if (event == FileEvent::Exists ) {
+    if (event == FileEvent::NotExist ) {
         cout << "File " << name << " does not exist" << Qt::endl;
         return;
     }
@@ -43,7 +42,7 @@ void ConsoleNotifyer::changeNotify(FileEvent event, QString name, qint64 size) {
 void ConsoleNotifyer::attachNotify(QString name, bool existance, qint64 size) {
     cout << "File " << name << " has been attached, ";
     if (existance) cout << "size " << size;
-    else cout << "is not exists";
+    else cout << "does not exist";
     cout << Qt::endl;
 }
 

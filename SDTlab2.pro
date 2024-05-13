@@ -10,6 +10,7 @@ CONFIG -= app_bundle
 SOURCES += \
         consolenotifyer.cpp \
         filetracker.cpp \
+        inputthread.cpp \
         main.cpp \
         trackingmanager.cpp
 
@@ -21,4 +22,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     consolenotifyer.h \
     filetracker.h \
+    inputthread.h \
     trackingmanager.h

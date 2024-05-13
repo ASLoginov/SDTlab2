@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <consolenotifyer.h>
+#include <inputthread.h>
 
 int main(int argc, char *argv[])
 {
@@ -14,9 +15,13 @@ int main(int argc, char *argv[])
     QObject::connect(&manager, &TrackingManager::fileDetached, &console, &ConsoleNotifyer::detachNotify);
     QObject::connect(&manager, &TrackingManager::fileChanged, &console, &ConsoleNotifyer::changeNotify);
 
-    while(true) {
-        console.ReadCommand();
-    }
+    InputThread in;
+
+    QObject::connect(&in, &InputThread::finished, &in, &QObject::deleteLater);
+    QObject::connect(&in, &InputThread::stopSignal, &manager, &TrackingManager::stopTimer);
+    QObject::connect(&in, &InputThread::getNewLine, &console, &ConsoleNotifyer::ReadCommand);
+
+    in.start();
 
     return a.exec();
 }

@@ -5,7 +5,7 @@
 #include <QDateTime>
 
 enum class FileEvent {
-    NotExists,
+    NotExist,
     Exists,
     Changed
 };

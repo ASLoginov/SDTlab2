@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTextStream>
+#include <QDir>
 #include <trackingmanager.h>
 
 class ConsoleNotifyer : public QObject
@@ -16,9 +17,8 @@ class ConsoleNotifyer : public QObject
 public:
     static ConsoleNotifyer& Instance();
 
-    void ReadCommand();
-
 public slots:
+    void ReadCommand(QString str);
     void changeNotify(FileEvent event, QString name, qint64 size);
     void attachNotify(QString name, bool existance, qint64 size);
     void detachNotify(QString name);
@@ -26,7 +26,6 @@ public slots:
 signals:
     void attachSignal(QString name);
     void detachSignal(QString name);
-
 };
 
 #endif // CONSOLENOTIFYER_H
