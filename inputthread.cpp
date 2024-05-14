@@ -9,7 +9,3 @@ void InputThread::run() {
         emit getNewLine(inputString);
     }
 }
-
-InputThread::InputThread() {
-
-}

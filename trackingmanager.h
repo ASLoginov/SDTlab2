@@ -9,7 +9,6 @@
 class TrackingManager : public QObject {
     Q_OBJECT
 
-    QString name;
     QHash<QString, FileTracker> fileList;
     QTimer timer;
 

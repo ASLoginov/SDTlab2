@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
 
     InputThread in;
 
-    QObject::connect(&in, &InputThread::finished, &in, &QObject::deleteLater);
     QObject::connect(&in, &InputThread::stopSignal, &manager, &TrackingManager::stopTimer);
     QObject::connect(&in, &InputThread::getNewLine, &console, &ConsoleNotifyer::ReadCommand);
 

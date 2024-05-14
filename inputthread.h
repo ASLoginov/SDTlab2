@@ -11,7 +11,6 @@ class InputThread : public QThread
     void run();
 
 public:
-    InputThread();
 
 signals:
     void getNewLine(QString str);
