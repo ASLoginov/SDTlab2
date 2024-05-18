@@ -1,24 +1,25 @@
 #include <QCoreApplication>
-#include <consolenotifyer.h>
-#include <inputthread.h>
+#include <textnotifyer.h>
+#include <inputlistener.h>
+#include <trackingmanager.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
-    ConsoleNotifyer& console = ConsoleNotifyer::Instance();
-    TrackingManager& manager = TrackingManager::Instance();
+    TrackingManager manager;
 
-    QObject::connect(&console, &ConsoleNotifyer::attachSignal, &manager, &TrackingManager::Attach);
-    QObject::connect(&console, &ConsoleNotifyer::detachSignal, &manager, &TrackingManager::Detach);
-    QObject::connect(&manager, &TrackingManager::fileAttached, &console, &ConsoleNotifyer::attachNotify);
-    QObject::connect(&manager, &TrackingManager::fileDetached, &console, &ConsoleNotifyer::detachNotify);
-    QObject::connect(&manager, &TrackingManager::fileChanged, &console, &ConsoleNotifyer::changeNotify);
+    QTextStream out(stdout);
+    TextNotifyer notifyer(&out);
 
-    InputThread in;
+    QObject::connect(&manager, &TrackingManager::fileAttached, &notifyer, &TextNotifyer::attachNotify);
+    QObject::connect(&manager, &TrackingManager::fileDetached, &notifyer, &TextNotifyer::detachNotify);
+    QObject::connect(&manager, &TrackingManager::fileChanged, &notifyer, &TextNotifyer::changeNotify);
 
-    QObject::connect(&in, &InputThread::stopSignal, &manager, &TrackingManager::stopTimer);
-    QObject::connect(&in, &InputThread::getNewLine, &console, &ConsoleNotifyer::ReadCommand);
+    InputListener in;
+
+    QObject::connect(&in, &InputListener::silence, &notifyer, &TextNotifyer::setSilent);
+    QObject::connect(&in, &InputListener::attachSignal, &manager, &TrackingManager::Attach);
+    QObject::connect(&in, &InputListener::detachSignal, &manager, &TrackingManager::Detach);
 
     in.start();
 

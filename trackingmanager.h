@@ -7,31 +7,29 @@
 #include <QHash>
 
 class TrackingManager : public QObject {
+
     Q_OBJECT
 
     QHash<QString, FileTracker> fileList;
     QTimer timer;
 
-    TrackingManager();
-    ~TrackingManager();
-
     TrackingManager(const TrackingManager&);
     TrackingManager& operator=(const TrackingManager&);
 
 public:
-    static TrackingManager& Instance();
+
+    TrackingManager();
 
 public slots:
     void Attach(QString fileName);
     void Detach(QString fileName);
-    void resendSignal(FileEvent event, QString name, qint64 size);
-    void stopTimer();
+    void resendSignal(int event, QString name, qint64 size);
     void Update();
 
 signals:
     void fileAttached(QString fileName, bool existance, qint64 size);
     void fileDetached(QString fileName);
-    void fileChanged(FileEvent event, QString name, qint64 size);
+    void fileChanged(int event, QString name, qint64 size);
 
 };
 

@@ -5,16 +5,18 @@
 #include <stdio.h>
 #include <QTextStream>
 
-class InputThread : public QThread
+class InputListener : public QThread
 {
     Q_OBJECT
     void run();
 
 public:
+    void ReadCommand(QString str);
 
 signals:
-    void getNewLine(QString str);
-    void stopSignal();
+    void silence(bool value);
+    void attachSignal(QString name);
+    void detachSignal(QString name);
 };
 
 #endif // INPUTTHREAD_H

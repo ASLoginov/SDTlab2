@@ -4,14 +4,6 @@ TrackingManager::TrackingManager() {
     connect(&timer, &QTimer::timeout, this, &TrackingManager::Update);
 }
 
-TrackingManager::~TrackingManager() {
-
-}
-
-TrackingManager& TrackingManager::Instance() {
-    static TrackingManager instance;
-    return instance;
-}
 
 void TrackingManager::Attach(QString fileName) {
     if (!fileList.contains(fileName)) {
@@ -27,12 +19,8 @@ void TrackingManager::Detach(QString fileName) {
     if (fileList.empty()) timer.stop();
 }
 
-void TrackingManager::resendSignal(FileEvent event, QString name, qint64 size) {
+void TrackingManager::resendSignal(int event, QString name, qint64 size) {
     emit fileChanged(event, name, size);
-}
-
-void TrackingManager::stopTimer() {
-    timer.stop();
 }
 
 void TrackingManager::Update() {

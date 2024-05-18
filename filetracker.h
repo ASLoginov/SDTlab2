@@ -4,12 +4,6 @@
 #include <QFile>
 #include <QDateTime>
 
-enum class FileEvent {
-    NotExist,
-    Exists,
-    Changed
-};
-
 class FileTracker : public QFile {
     Q_OBJECT
 
@@ -25,7 +19,7 @@ public:
     FileTracker(const FileTracker& other);
 
 signals:
-    void fileChanged(FileEvent event, QString name, qint64 size);
+    void fileChanged(int event, QString name, qint64 size);
 };
 
 #endif // FILETRACKER_H
