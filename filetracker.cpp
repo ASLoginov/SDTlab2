@@ -14,7 +14,10 @@ void FileTracker::Update() {
     }
     else {
         existance = exists();
-        if (existance) emit fileChanged(1, fileName(), size());
+        if (existance) {
+            lastTime = fileTime(QFileDevice::FileModificationTime);
+            emit fileChanged(1, fileName(), size());
+        }
         else emit fileChanged(0, fileName(), size());
     }
 }
