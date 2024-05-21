@@ -46,4 +46,7 @@ void TextNotifyer::detachNotify(QString name) {
 
 void TextNotifyer::setSilent(bool value) {
     silent = value;
+    QTextStream& qout = *ostream;
+    if (silent) qout << "stop output" << Qt::endl;
+    else qout << "continue output" << Qt::endl;
 }
