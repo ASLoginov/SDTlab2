@@ -11,7 +11,7 @@ class FileTracker : public QFile {
     QDateTime lastTime;
 
 public:
-    FileTracker() {};
+    FileTracker() {}
     FileTracker(const QString& name);
     void Update();
 

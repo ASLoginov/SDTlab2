@@ -11,7 +11,6 @@ class TrackingManager : public QObject {
     Q_OBJECT
 
     QHash<QString, FileTracker> fileList;
-    QTimer timer;
 
     TrackingManager(const TrackingManager&);
     TrackingManager& operator=(const TrackingManager&);

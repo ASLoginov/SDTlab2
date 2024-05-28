@@ -7,6 +7,10 @@ int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
     TrackingManager manager;
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, &manager, &TrackingManager::Update);
+    timer.setInterval(100);
+    timer.start();
 
     QTextStream out(stdout);
     TextNotifyer notifyer(&out);
